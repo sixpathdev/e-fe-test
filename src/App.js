@@ -11,13 +11,16 @@ const App = () => {
   }, [])
 
   const getRecords = async () => {
-    const response = await axios.get(
-      'https://expectoo-csv-test.herokuapp.com/records'
-    )
-    if (response.data.status === 'success') {
-      setData(response.data.data)
+    try {
+      const response = await axios.get(
+        'https://expectoo-csv-test.herokuapp.com/records'
+      )
+      if (response.data.status === 'success') {
+        setData(response.data.data)
+      }
+    } catch (error) {
+      console.log(error)
     }
-    console.log(response.data.data)
   }
 
   const uploadCsv = async (e) => {
@@ -31,15 +34,13 @@ const App = () => {
       )
       if (response.data.status === 'success') {
         alert('Uploaded successfully')
+        getRecords()
       }
-      console.log(response)
     } catch (error) {
       alert(error)
     }
   }
-  useEffect(() => {
-    console.log(selectedFile)
-  }, [selectedFile])
+  
 
   return (
     <div className='container'>
@@ -54,10 +55,10 @@ const App = () => {
       <table className='table text-center mt-5'>
         <thead>
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Comment</th>
-            <th scope="col">Author</th>
+            <th scope='col'>ID</th>
+            <th scope='col'>Title</th>
+            <th scope='col'>Comment</th>
+            <th scope='col'>Author</th>
           </tr>
         </thead>
         <tbody>
